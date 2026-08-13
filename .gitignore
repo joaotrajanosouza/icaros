@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+/dist/
+/dist-ssr/
+/build/
+out/
+
+# Vite
+.vite/
+*.tsbuildinfo
+
+# Test and coverage output
+coverage/
+htmlcov/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+*.log
+
+# Editor / OS files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local misc
+*.local
+*.zip
