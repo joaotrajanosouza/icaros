@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { queryClient } from "@/query-client";
 import { AuthProvider } from "@core/auth-provider";
+import { AppearanceProvider } from "@core/appearance-context";
 import { useAuth } from "@core/auth-context";
 import { routeTree } from "./routeTree.gen";
 import "./index.css";
@@ -31,9 +32,11 @@ async function bootstrap() {
   createRoot(rootElement).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <InnerApp />
-        </AuthProvider>
+        <AppearanceProvider>
+          <AuthProvider>
+            <InnerApp />
+          </AuthProvider>
+        </AppearanceProvider>
       </QueryClientProvider>
     </StrictMode>,
   );
