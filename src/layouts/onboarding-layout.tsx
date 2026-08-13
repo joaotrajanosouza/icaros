@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { APP_NAME } from "@core/constants";
+import { BrandLockup } from "@ui/brand-mark";
 
 export function OnboardingLayout({
   step,
@@ -13,7 +13,7 @@ export function OnboardingLayout({
   return (
     <div className="flex min-h-dvh flex-col bg-white px-6 py-8">
       <div className="mx-auto w-full max-w-md">
-        <p className="mb-2 text-sm font-semibold text-violet-600">{APP_NAME}</p>
+        <BrandLockup markSize={30} className="mb-4" />
         <div className="mb-8 flex gap-1.5">
           {Array.from({ length: totalSteps }).map((_, index) => (
             <div
