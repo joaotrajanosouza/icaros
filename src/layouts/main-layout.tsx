@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutGrid,
@@ -8,6 +8,8 @@ import {
   Palette,
   BarChart3,
   Settings,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { cx } from "@ui/variants";
 
@@ -25,10 +27,27 @@ const MOBILE_NAV_ITEMS = NAV_ITEMS.slice(0, 5);
 
 export function MainLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <div className="flex flex-1 bg-zinc-50">
-      <aside className="hidden w-56 shrink-0 flex-col border-r border-zinc-100 bg-white px-3 py-6 md:flex">
+      <aside
+        className={cx(
+          "hidden shrink-0 flex-col border-r border-zinc-100 bg-white px-3 py-6 transition-[width] duration-200 dark:border-zinc-800 dark:bg-zinc-900 md:flex",
+          isCollapsed ? "w-16" : "w-56",
+        )}
+      >
+        <div className={cx("mb-4 flex", isCollapsed ? "justify-center" : "justify-end")}>
+          <button
+            type="button"
+            aria-label={isCollapsed ? "Expandir menu" : "Recolher menu"}
+            title={isCollapsed ? "Expandir menu" : "Recolher menu"}
+            onClick={() => setIsCollapsed((collapsed) => !collapsed)}
+            className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
+          >
+            {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+          </button>
+        </div>
         <nav className="flex flex-col gap-1">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
@@ -39,11 +58,15 @@ export function MainLayout({ children }: { children: ReactNode }) {
                 to={item.to}
                 className={cx(
                   "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                  active ? "bg-violet-50 text-violet-700" : "text-zinc-600 hover:bg-zinc-100",
+                  isCollapsed && "justify-center px-2",
+                  active
+                    ? "bg-violet-50 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300"
+                    : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800",
                 )}
+                title={isCollapsed ? item.label : undefined}
               >
                 <Icon size={18} />
-                {item.label}
+                {!isCollapsed && item.label}
               </Link>
             );
           })}
