@@ -1,19 +1,19 @@
-import type { ReactNode } from "react";
-import { cx } from "@ui/variants";
-
-export function Header({
-  title,
-  action,
-  className,
-}: {
+type HeaderProps = {
   title: string;
-  action?: ReactNode;
-  className?: string;
-}) {
+  description?: string;
+  action?: React.ReactNode;
+};
+
+export function Header({ title, description, action }: HeaderProps) {
   return (
-    <header className={cx("flex items-center justify-between gap-4 py-2", className)}>
-      <h1 className="text-xl font-bold text-zinc-900">{title}</h1>
-      {action}
-    </header>
+    <div className="flex items-start justify-between gap-4">
+      <div>
+        <h1 className="text-xl font-bold text-foreground">{title}</h1>
+        {description ? (
+          <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
+        ) : null}
+      </div>
+      {action ? <div className="shrink-0">{action}</div> : null}
+    </div>
   );
 }

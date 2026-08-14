@@ -1,5 +1,4 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AuthLayout } from "@layouts/auth-layout";
 import { Button } from "@ui/button";
 import { useAuth } from "@core/auth-context";
 import { useMessages } from "@core/i18n";
@@ -43,16 +42,51 @@ function LoginPage() {
   }
 
   return (
-    <AuthLayout>
-      <div className="rounded-3xl border border-zinc-200 bg-white p-8 shadow-xl shadow-zinc-900/5">
-        <div className="flex flex-col items-center gap-6 text-center">
-          <BrandLockup markSize={44} />
+    <div className="grid min-h-dvh lg:grid-cols-2">
+      {/* Left — brand panel (desktop only) */}
+      <div className="relative hidden flex-col items-start justify-between overflow-hidden bg-primary p-10 lg:flex">
+        {/* Subtle blobs */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-white/10 blur-3xl"
+        />
 
-          <div>
-            <h1 className="text-xl font-bold text-zinc-900">
+        {/* Logo */}
+        <div className="relative z-10">
+          <BrandLockup
+            markSize={36}
+            className="[&_*]:text-primary-foreground [&_path]:fill-primary-foreground"
+          />
+        </div>
+
+        {/* Tagline */}
+        <div className="relative z-10 space-y-3">
+          <blockquote className="text-2xl font-semibold leading-snug text-primary-foreground">
+            "Um link para tudo que você é."
+          </blockquote>
+          <p className="text-sm text-primary-foreground/70">
+            Compartilhe sua página com o mundo em segundos.
+          </p>
+        </div>
+      </div>
+
+      {/* Right — form panel */}
+      <div className="flex flex-col items-center justify-center bg-background px-6 py-12">
+        {/* Mobile logo */}
+        <div className="mb-8 lg:hidden">
+          <BrandLockup markSize={40} />
+        </div>
+
+        <div className="w-full max-w-sm space-y-6">
+          <div className="space-y-1 text-center">
+            <h1 className="text-2xl font-bold tracking-tight">
               {messages.auth.loginTitle}
             </h1>
-            <p className="mt-1.5 text-sm text-zinc-500">
+            <p className="text-sm text-muted-foreground">
               {messages.auth.loginSubtitle}
             </p>
           </div>
@@ -60,22 +94,22 @@ function LoginPage() {
           <Button
             size="lg"
             variant="outline"
-            className="w-full justify-center gap-3 border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50"
+            className="w-full justify-center gap-3"
             onClick={handleLogin}
           >
             <GoogleIcon />
             {messages.auth.loginWithGoogle}
           </Button>
 
-          <p className="text-xs text-zinc-400">
+          <p className="text-center text-xs text-muted-foreground">
             Ao entrar, você concorda com os nossos{" "}
-            <span className="text-zinc-600 underline underline-offset-2 cursor-pointer">
+            <span className="text-foreground underline underline-offset-2 cursor-pointer hover:text-primary transition-colors">
               Termos de Uso
             </span>
             .
           </p>
         </div>
       </div>
-    </AuthLayout>
+    </div>
   );
 }

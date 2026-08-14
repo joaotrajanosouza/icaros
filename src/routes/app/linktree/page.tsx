@@ -4,7 +4,7 @@ import { Camera } from "lucide-react";
 import { myPageQuery } from "@core/queries";
 import { updateMyPage } from "@core/api/pages";
 import { Header } from "@ui/header";
-import { Avatar } from "@ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@ui/avatar";
 import { Input } from "@ui/input";
 import { Textarea } from "@ui/textarea";
 import { Button } from "@ui/button";
@@ -58,7 +58,10 @@ function MyPagePage() {
       {/* Avatar card */}
       <div className="flex flex-col items-center gap-4 rounded-3xl border border-zinc-200 bg-white p-6">
         <div className="relative">
-          <Avatar src={page.avatarUrl} name={page.displayName} size={96} />
+          <Avatar className="h-24 w-24">
+            <AvatarImage src={page.avatarUrl ?? undefined} alt={page.displayName} />
+            <AvatarFallback>{page.displayName.slice(0, 2).toUpperCase()}</AvatarFallback>
+          </Avatar>
           <button
             type="button"
             aria-label="Alterar foto"

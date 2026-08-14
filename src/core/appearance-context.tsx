@@ -22,7 +22,13 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
   const [mode, setModeState] = useState<AppearanceMode>(getInitialMode);
 
   useEffect(() => {
-    document.documentElement.dataset.theme = mode;
+    const root = document.documentElement;
+    root.dataset.theme = mode;
+    if (mode === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
     window.localStorage.setItem(STORAGE_KEY, mode);
   }, [mode]);
 

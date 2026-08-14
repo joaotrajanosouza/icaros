@@ -12,9 +12,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       data-slot="textarea"
       aria-invalid={invalid}
       className={cn(
-        "w-full resize-none rounded-xl border bg-white px-4 py-3 text-base text-zinc-900 placeholder:text-zinc-400 outline-none transition-colors",
-        "focus:border-violet-500 focus:ring-4 focus:ring-violet-500/10",
-        invalid ? "border-red-400" : "border-zinc-200",
+        "w-full resize-none rounded-xl border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground outline-none transition-colors",
+        "focus:border-primary focus:ring-4 focus:ring-primary/10",
+        invalid ? "border-destructive" : "border-input",
         className,
       )}
       {...props}

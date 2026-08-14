@@ -6,10 +6,12 @@ const badgeVariants = cva(
   {
     variants: {
       tone: {
-        neutral: "bg-zinc-100 text-zinc-700",
-        success: "bg-emerald-100 text-emerald-700",
-        warning: "bg-amber-100 text-amber-700",
-        violet: "bg-violet-100 text-violet-700",
+        neutral: "bg-muted text-muted-foreground",
+        success: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+        warning: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+        primary: "bg-primary/10 text-primary",
+        /** @deprecated Use `primary` instead */
+        violet: "bg-primary/10 text-primary",
       },
     },
     defaultVariants: { tone: "neutral" },

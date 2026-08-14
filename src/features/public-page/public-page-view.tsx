@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, ArrowLeft } from "lucide-react";
 import { publicPageQuery, themesQuery, linksQuery, foldersQuery } from "@core/queries";
 import { getIconOption } from "@pattern/icon-catalog";
-import { Avatar } from "@ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@ui/avatar";
 import { Loading } from "@ui/loading";
 import { APP_NAME } from "@core/constants";
 import { usePageViewTracking, trackLinkClick } from "@features/public-page/hooks";
@@ -52,7 +52,10 @@ export function PublicPageView({ username, folderSlug }: { username: string; fol
           </a>
         ) : null}
 
-        <Avatar src={page.avatarUrl} name={page.displayName} size={88} />
+        <Avatar className="h-[88px] w-[88px]">
+          <AvatarImage src={page.avatarUrl ?? undefined} alt={page.displayName} />
+          <AvatarFallback>{page.displayName.slice(0, 2).toUpperCase()}</AvatarFallback>
+        </Avatar>
         <h1 className="mt-4 text-xl font-bold" style={{ color: theme?.textColor }}>
           {activeFolder ? activeFolder.name : page.displayName}
         </h1>
