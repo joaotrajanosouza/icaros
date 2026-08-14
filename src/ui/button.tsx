@@ -1,19 +1,50 @@
-import { forwardRef, type ButtonHTMLAttributes } from "react";
-import { buttonVariants } from "@ui/button.variants";
-import { cx, type VariantProps } from "@ui/variants";
+import { forwardRef } from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@ui/utils";
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & VariantProps<typeof buttonVariants>;
+export const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 rounded-2xl font-semibold transition-all active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none",
+  {
+    variants: {
+      variant: {
+        primary:
+          "bg-violet-600 text-white shadow-sm shadow-violet-600/20 hover:bg-violet-500",
+        secondary: "bg-zinc-100 text-zinc-900 hover:bg-zinc-200",
+        outline:
+          "border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50",
+        ghost: "text-zinc-600 hover:bg-zinc-100",
+        destructive: "bg-red-600 text-white hover:bg-red-500",
+      },
+      size: {
+        sm: "h-9 px-3 text-sm",
+        md: "h-11 px-4 text-sm",
+        lg: "h-14 px-6 text-base",
+        icon: "h-11 w-11",
+      },
+    },
+    defaultVariants: { variant: "primary", size: "md" },
+  },
+);
+
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+  };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, type = "button", ...props }, ref) => (
-    <button
-      ref={ref}
-      type={type}
-      data-slot="button"
-      data-variant={variant ?? "primary"}
-      className={cx(buttonVariants({ variant, size }), className)}
-      {...props}
-    />
-  ),
+  ({ className, variant, size, asChild = false, type = "button", ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        ref={ref}
+        type={asChild ? undefined : type}
+        data-slot="button"
+        data-variant={variant ?? "primary"}
+        className={cn(buttonVariants({ variant, size }), className)}
+        {...props}
+      />
+    );
+  },
 );
 Button.displayName = "Button";

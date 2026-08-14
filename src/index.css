@@ -17,11 +17,107 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-html[data-theme="dark"] {
-  color-scheme: dark;
-  background: #09090b;
+/* ─── Shadcn / Icaros design tokens ─────────────────────────────────────── */
+/* HSL triples (no hsl() wrapper) so Tailwind opacity modifier works.        */
+@layer base {
+  :root {
+    /* Palette */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    /* Icaros violet — #7c3aed ≈ hsl(263 82% 58%) */
+    --primary: 263 82% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 263 82% 96%;
+    --accent-foreground: 263 72% 35%;
+
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 263 82% 58%;
+
+    --radius: 0.75rem;
+  }
+
+  html[data-theme="dark"] {
+    color-scheme: dark;
+
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 3.7% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 3.7% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 263 82% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 3.7% 16%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 16%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 263 60% 20%;
+    --accent-foreground: 263 82% 80%;
+
+    --destructive: 0 62.8% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 3.7% 22%;
+    --input: 240 3.7% 18%;
+    --ring: 263 82% 65%;
+  }
 }
 
+/* Map tokens to Tailwind v4 colour utilities (bg-primary, text-foreground …) */
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ─── Dark-mode surface overrides ───────────────────────────────────────── */
+/* These override the Tailwind utility classes used by layout/feature files  */
+/* that still use hardcoded zinc colours (will be removed in Task #5).       */
 html[data-theme="dark"] body {
   background: #09090b;
   color: #fafafa;

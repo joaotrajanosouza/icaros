@@ -1,5 +1,7 @@
-import { cx } from "@ui/variants";
+import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import { cn } from "@ui/utils";
 
+/** Custom avatar that keeps the same API as before, now powered by Radix Avatar. */
 export function Avatar({
   src,
   name,
@@ -19,14 +21,32 @@ export function Avatar({
     .join("");
 
   return (
-    <div
-      className={cx(
-        "flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-violet-100 font-bold text-violet-700",
+    <AvatarPrimitive.Root
+      data-slot="avatar"
+      className={cn(
+        "flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-violet-100",
         className,
       )}
-      style={{ width: size, height: size, fontSize: size * 0.38 }}
+      style={{ width: size, height: size }}
     >
-      {src ? <img src={src} alt={name} className="h-full w-full object-cover" /> : initials}
-    </div>
+      {src ? (
+        <AvatarPrimitive.Image
+          src={src}
+          alt={name}
+          className="h-full w-full object-cover"
+        />
+      ) : null}
+      <AvatarPrimitive.Fallback
+        className="flex h-full w-full items-center justify-center font-bold text-violet-700"
+        style={{ fontSize: size * 0.38 }}
+      >
+        {initials}
+      </AvatarPrimitive.Fallback>
+    </AvatarPrimitive.Root>
   );
 }
+
+// Named re-exports of primitives for advanced composition in Task #5.
+export {
+  AvatarPrimitive as AvatarRoot,
+};

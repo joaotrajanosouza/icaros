@@ -1,61 +1,54 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-import { cx } from "@ui/variants";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { cn } from "@ui/utils";
 
-type TabsContextValue = { value: string; setValue: (value: string) => void };
-const TabsContext = createContext<TabsContextValue | null>(null);
+const Tabs = TabsPrimitive.Root;
 
-function useTabsContext(): TabsContextValue {
-  const ctx = useContext(TabsContext);
-  if (!ctx) throw new Error("Tabs.* precisa estar dentro de <Tabs>");
-  return ctx;
-}
-
-export function Tabs({
-  defaultValue,
-  children,
+function TabsList({
   className,
-}: {
-  defaultValue: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  const [value, setValue] = useState(defaultValue);
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.List>) {
   return (
-    <TabsContext.Provider value={{ value, setValue }}>
-      <div className={className}>{children}</div>
-    </TabsContext.Provider>
-  );
-}
-
-export function TabsList({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <div role="tablist" className={cx("flex gap-1 overflow-x-auto rounded-full bg-zinc-100 p-1", className)}>
-      {children}
-    </div>
-  );
-}
-
-export function TabsTrigger({ value, children }: { value: string; children: ReactNode }) {
-  const ctx = useTabsContext();
-  const active = ctx.value === value;
-  return (
-    <button
-      type="button"
-      role="tab"
-      aria-selected={active}
-      onClick={() => ctx.setValue(value)}
-      className={cx(
-        "flex-shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors",
-        active ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-800",
+    <TabsPrimitive.List
+      data-slot="tabs-list"
+      className={cn(
+        "flex gap-1 overflow-x-auto rounded-full bg-zinc-100 p-1",
+        className,
       )}
-    >
-      {children}
-    </button>
+      {...props}
+    />
   );
 }
 
-export function TabsContent({ value, children }: { value: string; children: ReactNode }) {
-  const ctx = useTabsContext();
-  if (ctx.value !== value) return null;
-  return <div role="tabpanel">{children}</div>;
+function TabsTrigger({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+  return (
+    <TabsPrimitive.Trigger
+      data-slot="tabs-trigger"
+      className={cn(
+        "flex-shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors",
+        "data-[state=active]:bg-white data-[state=active]:text-zinc-900 data-[state=active]:shadow-sm",
+        "data-[state=inactive]:text-zinc-500 data-[state=inactive]:hover:text-zinc-800",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500",
+        className,
+      )}
+      {...props}
+    />
+  );
 }
+
+function TabsContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Content>) {
+  return (
+    <TabsPrimitive.Content
+      data-slot="tabs-content"
+      className={cn("focus-visible:outline-none", className)}
+      {...props}
+    />
+  );
+}
+
+export { Tabs, TabsList, TabsTrigger, TabsContent };

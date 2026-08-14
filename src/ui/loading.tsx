@@ -1,5 +1,5 @@
 import { Loader2 } from "lucide-react";
-import { cx } from "@ui/variants";
+import { cn } from "@ui/utils";
 
 export function Loading({ label = "Carregando..." }: { label?: string }) {
   return (
@@ -11,5 +11,10 @@ export function Loading({ label = "Carregando..." }: { label?: string }) {
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cx("animate-pulse rounded-xl bg-zinc-100", className)} />;
+  return (
+    <div
+      data-slot="skeleton"
+      className={cn("animate-pulse rounded-xl bg-zinc-100", className)}
+    />
+  );
 }

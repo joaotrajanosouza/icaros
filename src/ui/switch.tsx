@@ -1,34 +1,42 @@
-import { cx } from "@ui/variants";
+import * as SwitchPrimitive from "@radix-ui/react-switch";
+import { cn } from "@ui/utils";
 
 type SwitchProps = {
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
   label?: string;
   disabled?: boolean;
+  className?: string;
 };
 
-export function Switch({ checked, onCheckedChange, label, disabled }: SwitchProps) {
+export function Switch({
+  checked,
+  onCheckedChange,
+  label,
+  disabled,
+  className,
+}: SwitchProps) {
   return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      aria-label={label}
-      disabled={disabled}
-      onClick={() => onCheckedChange(!checked)}
+    <SwitchPrimitive.Root
       data-slot="switch"
-      data-state={checked ? "checked" : "unchecked"}
-      className={cx(
-        "relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors disabled:opacity-50",
-        checked ? "bg-violet-600" : "bg-zinc-200",
+      checked={checked}
+      onCheckedChange={onCheckedChange}
+      disabled={disabled}
+      aria-label={label}
+      className={cn(
+        "relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        "data-[state=checked]:bg-violet-600 data-[state=unchecked]:bg-zinc-200",
+        className,
       )}
     >
-      <span
-        className={cx(
-          "inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform",
-          checked ? "translate-x-6" : "translate-x-1",
+      <SwitchPrimitive.Thumb
+        className={cn(
+          "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform",
+          "data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-1",
         )}
       />
-    </button>
+    </SwitchPrimitive.Root>
   );
 }
