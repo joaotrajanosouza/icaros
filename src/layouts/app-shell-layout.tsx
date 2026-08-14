@@ -15,8 +15,7 @@ const ROUTE_LABELS: Record<string, { label: string; parent?: string }> = {
   "/app/linktree/folder":   { label: "Subpasta",        parent: "/app/linktree" },
   "/app/linktree/themes":   { label: "Temas",           parent: "/app/linktree" },
   "/app/linktree/stats":    { label: "Estatísticas",    parent: "/app/linktree" },
-  "/app/linktree/settings": { label: "Configurações",   parent: "/app/linktree" },
-  "/app/plan":              { label: "Plano" },
+  "/app/conta":             { label: "Conta" },
 };
 
 function buildCrumbs(pathname: string): Crumb[] {

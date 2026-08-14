@@ -15,13 +15,12 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as UsernameFolderRouteImport } from './routes/$username.$folder'
+import { Route as AppContaRouteImport } from './routes/app/conta'
 import { Route as AppLinktreeRouteImport } from './routes/app/linktree'
-import { Route as AppPlanRouteImport } from './routes/app/plan'
 import { Route as AppLinktreeIndexRouteImport } from './routes/app/linktree/index'
 import { Route as AppLinktreeFolderRouteImport } from './routes/app/linktree/folder'
 import { Route as AppLinktreeLinksRouteImport } from './routes/app/linktree/links'
 import { Route as AppLinktreePageRouteImport } from './routes/app/linktree/page'
-import { Route as AppLinktreeSettingsRouteImport } from './routes/app/linktree/settings'
 import { Route as AppLinktreeStatsRouteImport } from './routes/app/linktree/stats'
 import { Route as AppLinktreeThemesRouteImport } from './routes/app/linktree/themes'
 
@@ -55,14 +54,14 @@ const UsernameFolderRoute = UsernameFolderRouteImport.update({
   path: '/$folder',
   getParentRoute: () => UsernameRoute,
 } as any)
+const AppContaRoute = AppContaRouteImport.update({
+  id: '/conta',
+  path: '/conta',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppLinktreeRoute = AppLinktreeRouteImport.update({
   id: '/linktree',
   path: '/linktree',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppPlanRoute = AppPlanRouteImport.update({
-  id: '/plan',
-  path: '/plan',
   getParentRoute: () => AppRoute,
 } as any)
 const AppLinktreeIndexRoute = AppLinktreeIndexRouteImport.update({
@@ -85,11 +84,6 @@ const AppLinktreePageRoute = AppLinktreePageRouteImport.update({
   path: '/page',
   getParentRoute: () => AppLinktreeRoute,
 } as any)
-const AppLinktreeSettingsRoute = AppLinktreeSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AppLinktreeRoute,
-} as any)
 const AppLinktreeStatsRoute = AppLinktreeStatsRouteImport.update({
   id: '/stats',
   path: '/stats',
@@ -108,12 +102,11 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/$username/$folder': typeof UsernameFolderRoute
+  '/app/conta': typeof AppContaRoute
   '/app/linktree': typeof AppLinktreeRouteWithChildren
-  '/app/plan': typeof AppPlanRoute
   '/app/linktree/folder': typeof AppLinktreeFolderRoute
   '/app/linktree/links': typeof AppLinktreeLinksRoute
   '/app/linktree/page': typeof AppLinktreePageRoute
-  '/app/linktree/settings': typeof AppLinktreeSettingsRoute
   '/app/linktree/stats': typeof AppLinktreeStatsRoute
   '/app/linktree/themes': typeof AppLinktreeThemesRoute
   '/app/linktree/': typeof AppLinktreeIndexRoute
@@ -125,11 +118,10 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/$username/$folder': typeof UsernameFolderRoute
-  '/app/plan': typeof AppPlanRoute
+  '/app/conta': typeof AppContaRoute
   '/app/linktree/folder': typeof AppLinktreeFolderRoute
   '/app/linktree/links': typeof AppLinktreeLinksRoute
   '/app/linktree/page': typeof AppLinktreePageRoute
-  '/app/linktree/settings': typeof AppLinktreeSettingsRoute
   '/app/linktree/stats': typeof AppLinktreeStatsRoute
   '/app/linktree/themes': typeof AppLinktreeThemesRoute
   '/app/linktree': typeof AppLinktreeIndexRoute
@@ -142,12 +134,11 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/$username/$folder': typeof UsernameFolderRoute
+  '/app/conta': typeof AppContaRoute
   '/app/linktree': typeof AppLinktreeRouteWithChildren
-  '/app/plan': typeof AppPlanRoute
   '/app/linktree/folder': typeof AppLinktreeFolderRoute
   '/app/linktree/links': typeof AppLinktreeLinksRoute
   '/app/linktree/page': typeof AppLinktreePageRoute
-  '/app/linktree/settings': typeof AppLinktreeSettingsRoute
   '/app/linktree/stats': typeof AppLinktreeStatsRoute
   '/app/linktree/themes': typeof AppLinktreeThemesRoute
   '/app/linktree/': typeof AppLinktreeIndexRoute
@@ -161,12 +152,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/$username/$folder'
+    | '/app/conta'
     | '/app/linktree'
-    | '/app/plan'
     | '/app/linktree/folder'
     | '/app/linktree/links'
     | '/app/linktree/page'
-    | '/app/linktree/settings'
     | '/app/linktree/stats'
     | '/app/linktree/themes'
     | '/app/linktree/'
@@ -178,11 +168,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/$username/$folder'
-    | '/app/plan'
+    | '/app/conta'
     | '/app/linktree/folder'
     | '/app/linktree/links'
     | '/app/linktree/page'
-    | '/app/linktree/settings'
     | '/app/linktree/stats'
     | '/app/linktree/themes'
     | '/app/linktree'
@@ -194,12 +183,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/$username/$folder'
+    | '/app/conta'
     | '/app/linktree'
-    | '/app/plan'
     | '/app/linktree/folder'
     | '/app/linktree/links'
     | '/app/linktree/page'
-    | '/app/linktree/settings'
     | '/app/linktree/stats'
     | '/app/linktree/themes'
     | '/app/linktree/'
@@ -257,18 +245,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsernameFolderRouteImport
       parentRoute: typeof UsernameRoute
     }
+    '/app/conta': {
+      id: '/app/conta'
+      path: '/conta'
+      fullPath: '/app/conta'
+      preLoaderRoute: typeof AppContaRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/linktree': {
       id: '/app/linktree'
       path: '/linktree'
       fullPath: '/app/linktree'
       preLoaderRoute: typeof AppLinktreeRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/plan': {
-      id: '/app/plan'
-      path: '/plan'
-      fullPath: '/app/plan'
-      preLoaderRoute: typeof AppPlanRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/linktree/': {
@@ -297,13 +285,6 @@ declare module '@tanstack/react-router' {
       path: '/page'
       fullPath: '/app/linktree/page'
       preLoaderRoute: typeof AppLinktreePageRouteImport
-      parentRoute: typeof AppLinktreeRoute
-    }
-    '/app/linktree/settings': {
-      id: '/app/linktree/settings'
-      path: '/settings'
-      fullPath: '/app/linktree/settings'
-      preLoaderRoute: typeof AppLinktreeSettingsRouteImport
       parentRoute: typeof AppLinktreeRoute
     }
     '/app/linktree/stats': {
@@ -339,7 +320,6 @@ interface AppLinktreeRouteChildren {
   AppLinktreeFolderRoute: typeof AppLinktreeFolderRoute
   AppLinktreeLinksRoute: typeof AppLinktreeLinksRoute
   AppLinktreePageRoute: typeof AppLinktreePageRoute
-  AppLinktreeSettingsRoute: typeof AppLinktreeSettingsRoute
   AppLinktreeStatsRoute: typeof AppLinktreeStatsRoute
   AppLinktreeThemesRoute: typeof AppLinktreeThemesRoute
   AppLinktreeIndexRoute: typeof AppLinktreeIndexRoute
@@ -349,7 +329,6 @@ const AppLinktreeRouteChildren: AppLinktreeRouteChildren = {
   AppLinktreeFolderRoute: AppLinktreeFolderRoute,
   AppLinktreeLinksRoute: AppLinktreeLinksRoute,
   AppLinktreePageRoute: AppLinktreePageRoute,
-  AppLinktreeSettingsRoute: AppLinktreeSettingsRoute,
   AppLinktreeStatsRoute: AppLinktreeStatsRoute,
   AppLinktreeThemesRoute: AppLinktreeThemesRoute,
   AppLinktreeIndexRoute: AppLinktreeIndexRoute,
@@ -360,13 +339,13 @@ const AppLinktreeRouteWithChildren = AppLinktreeRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppContaRoute: typeof AppContaRoute
   AppLinktreeRoute: typeof AppLinktreeRouteWithChildren
-  AppPlanRoute: typeof AppPlanRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppContaRoute: AppContaRoute,
   AppLinktreeRoute: AppLinktreeRouteWithChildren,
-  AppPlanRoute: AppPlanRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

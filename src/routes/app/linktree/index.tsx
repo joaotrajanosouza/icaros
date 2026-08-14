@@ -87,7 +87,7 @@ function OverviewPage() {
       {/* Upgrade CTA — only for free plan */}
       {!isPaid ? (
         <Link
-          to="/app/plan"
+          to="/app/conta"
           className="flex items-center gap-3 rounded-3xl border border-violet-200 bg-gradient-to-r from-violet-50 to-white p-4 text-sm font-medium text-violet-700 transition-colors hover:border-violet-300 hover:bg-violet-50"
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-600 text-white shadow-sm shadow-violet-600/30">

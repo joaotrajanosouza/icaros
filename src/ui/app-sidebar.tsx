@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   LayoutGrid,
   User,
@@ -8,13 +8,12 @@ import {
   FolderOpen,
   Palette,
   BarChart3,
-  Settings,
-  CreditCard,
   LogOut,
   MoreVerticalIcon,
   ChevronRight,
   Users,
   TrendingUp,
+  UserCog,
 } from "lucide-react";
 import { useAuth } from "@core/auth-context";
 import { BrandMark } from "@ui/brand-mark";
@@ -55,7 +54,6 @@ const LINKTREE_ITEMS = [
   { to: "/app/linktree/folder", label: "Subpasta", icon: FolderOpen, exact: false },
   { to: "/app/linktree/themes", label: "Temas", icon: Palette, exact: false },
   { to: "/app/linktree/stats", label: "Estatísticas", icon: BarChart3, exact: false },
-  { to: "/app/linktree/settings", label: "Configurações", icon: Settings, exact: false },
 ] as const;
 
 // ─── Module definitions ───────────────────────────────────────────────────────
@@ -107,7 +105,7 @@ const MODULES: Module[] = [
   },
 ];
 
-const PLAN_ITEM = { to: "/app/plan", label: "Plano", icon: CreditCard } as const;
+const CONTA_ITEM = { to: "/app/conta", label: "Conta", icon: UserCog } as const;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -135,6 +133,7 @@ function getInitials(name: string): string {
 function NavUser() {
   const { user, logout } = useAuth();
   const { isMobile } = useSidebar();
+  const navigate = useNavigate();
 
   if (!user) return null;
 
@@ -185,7 +184,12 @@ function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={() => void logout()}>
+            <DropdownMenuItem
+              onSelect={async () => {
+                await logout();
+                await navigate({ to: "/login" });
+              }}
+            >
               <LogOut />
               Sair
             </DropdownMenuItem>
@@ -271,7 +275,7 @@ function LockedModule({ mod }: { mod: Extract<Module, { available: false }> }) {
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const planActive = pathname === PLAN_ITEM.to || pathname.startsWith(PLAN_ITEM.to + "/");
+  const contaActive = pathname === CONTA_ITEM.to || pathname.startsWith(CONTA_ITEM.to + "/");
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -314,19 +318,19 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Plano — rodapé da área de conteúdo */}
+        {/* Conta — rodapé da área de conteúdo */}
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  isActive={planActive}
-                  tooltip={PLAN_ITEM.label}
+                  isActive={contaActive}
+                  tooltip={CONTA_ITEM.label}
                 >
-                  <Link to={PLAN_ITEM.to}>
-                    <CreditCard />
-                    <span>{PLAN_ITEM.label}</span>
+                  <Link to={CONTA_ITEM.to}>
+                    <UserCog />
+                    <span>{CONTA_ITEM.label}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
