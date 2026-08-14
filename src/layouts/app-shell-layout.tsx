@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Menu } from "lucide-react";
 import { AppSidebar } from "@ui/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@ui/sidebar";
+import { SidebarInset, SidebarProvider, useSidebar } from "@ui/sidebar";
 
 // ─── Breadcrumb ───────────────────────────────────────────────────────────────
 
@@ -70,6 +71,23 @@ function AppBreadcrumb() {
   );
 }
 
+// ─── MenuToggle — sempre visível no header de conteúdo ────────────────────────
+
+function MenuToggle() {
+  const { toggleSidebar } = useSidebar();
+  return (
+    <button
+      type="button"
+      onClick={toggleSidebar}
+      aria-label="Abrir/fechar menu"
+      title="Menu"
+      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <Menu className="size-5" />
+    </button>
+  );
+}
+
 // ─── AppShellLayout ───────────────────────────────────────────────────────────
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
@@ -77,8 +95,9 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        {/* Header fixo com breadcrumb — oculto em mobile */}
-        <header className="sticky top-0 z-20 hidden h-12 items-center border-b border-border bg-background/95 px-5 backdrop-blur md:flex">
+        {/* Header fixo: toggle + breadcrumb — oculto em mobile */}
+        <header className="sticky top-0 z-20 hidden h-12 items-center gap-3 border-b border-border bg-background/95 px-3 backdrop-blur md:flex">
+          <MenuToggle />
           <AppBreadcrumb />
         </header>
         {children}
