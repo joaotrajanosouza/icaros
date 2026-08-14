@@ -44,7 +44,7 @@ function LoginPage() {
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
       {/* Left — brand panel (desktop only) */}
-      <div className="relative hidden flex-col items-start justify-between overflow-hidden bg-primary p-10 lg:flex">
+      <div className="relative hidden flex-col items-center justify-center overflow-hidden bg-primary p-10 lg:flex">
         {/* Subtle blobs */}
         <div
           aria-hidden="true"
@@ -55,14 +55,14 @@ function LoginPage() {
           className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-white/10 blur-3xl"
         />
 
-        {/* Logo */}
+        {/* Logo — centered */}
         <div className="relative z-10">
-          <BrandLockup markSize={120} />
+          <BrandLockup markSize={240} />
         </div>
 
-        {/* Tagline */}
-        <div className="relative z-10 space-y-3">
-          <blockquote className="text-2xl font-semibold leading-snug text-primary-foreground">
+        {/* Tagline — pinned to bottom */}
+        <div className="absolute bottom-10 left-10 right-10 z-10 space-y-2">
+          <blockquote className="text-xl font-semibold leading-snug text-primary-foreground">
             "Um link para tudo que você é."
           </blockquote>
           <p className="text-sm text-primary-foreground/70">
@@ -74,8 +74,8 @@ function LoginPage() {
       {/* Right — form panel */}
       <div className="flex flex-col items-center justify-center bg-background px-6 py-12">
         {/* Mobile logo */}
-        <div className="mb-8 lg:hidden">
-          <BrandLockup markSize={72} />
+        <div className="mb-8 flex justify-center lg:hidden">
+          <BrandLockup markSize={120} />
         </div>
 
         <div className="w-full max-w-sm space-y-6">
