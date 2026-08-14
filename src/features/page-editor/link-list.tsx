@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GripVertical, Pencil, Trash2, Link2 } from "lucide-react";
+import { GripVertical, Pencil, Plus, Trash2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { linksQuery, foldersQuery } from "@core/queries";
 import { Button } from "@ui/button";
@@ -12,6 +12,7 @@ import { getIconOption } from "@pattern/icon-catalog";
 import { useMessages } from "@core/i18n";
 import { cx } from "@ui/variants";
 import type { LinkButton } from "@core/api/links";
+import { Link2 } from "lucide-react";
 
 export function LinkList() {
   const messages = useMessages();
@@ -25,7 +26,9 @@ export function LinkList() {
 
   if (isLoading) return <Loading />;
 
-  const mainLinks = (links ?? []).filter((link) => link.folderId === null).sort((a, b) => a.order - b.order);
+  const mainLinks = (links ?? [])
+    .filter((link) => link.folderId === null)
+    .sort((a, b) => a.order - b.order);
 
   function handleDrop(targetId: string) {
     if (!dragId || dragId === targetId || !links) return;
@@ -48,6 +51,7 @@ export function LinkList() {
           setDialogOpen(true);
         }}
       >
+        <Plus size={16} />
         {messages.linkEditor.addLink}
       </Button>
 
@@ -65,40 +69,57 @@ export function LinkList() {
                 onDragOver={(event) => event.preventDefault()}
                 onDrop={() => handleDrop(link.id)}
                 className={cx(
-                  "flex items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-3 transition-opacity",
-                  dragId === link.id ? "opacity-50" : "opacity-100",
+                  "flex items-center gap-2.5 rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm transition-opacity",
+                  dragId === link.id ? "opacity-40" : "opacity-100",
                 )}
               >
-                <span className="cursor-grab text-zinc-300">
+                {/* Drag handle */}
+                <span className="cursor-grab touch-none text-zinc-300 hover:text-zinc-400 active:cursor-grabbing">
                   <GripVertical size={18} />
                 </span>
+
+                {/* Icon */}
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
                   <IconComponent size={18} />
                 </span>
+
+                {/* Labels */}
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-zinc-900">{link.title}</p>
+                  <p className="truncate text-sm font-semibold text-zinc-900">
+                    {link.title}
+                  </p>
                   <p className="truncate text-xs text-zinc-400">{link.url}</p>
                 </div>
+
+                {/* Active toggle */}
                 <Switch
                   checked={link.active}
-                  onCheckedChange={(active) => update.mutate({ id: link.id, input: { active } })}
+                  onCheckedChange={(active) =>
+                    update.mutate({ id: link.id, input: { active } })
+                  }
                 />
+
+                {/* Edit */}
                 <button
                   type="button"
+                  aria-label="Editar link"
                   onClick={() => {
                     setEditingLink(link);
                     setDialogOpen(true);
                   }}
-                  className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700"
+                  className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
                 >
-                  <Pencil size={16} />
+                  <Pencil size={15} />
                 </button>
+
+                {/* Delete */}
                 <button
                   type="button"
+                  aria-label="Excluir link"
                   onClick={() => remove.mutate(link.id)}
-                  className="rounded-lg p-2 text-zinc-400 hover:bg-red-50 hover:text-red-600"
+                  className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-600"
                 >
-                  <Trash2 size={16} />
+                  <Trash2 size={15} />
                 </button>
               </li>
             );

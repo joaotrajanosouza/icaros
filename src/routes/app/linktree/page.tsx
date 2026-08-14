@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Camera } from "lucide-react";
 import { myPageQuery } from "@core/queries";
 import { updateMyPage } from "@core/api/pages";
 import { Header } from "@ui/header";
@@ -7,6 +8,7 @@ import { Avatar } from "@ui/avatar";
 import { Input } from "@ui/input";
 import { Textarea } from "@ui/textarea";
 import { Button } from "@ui/button";
+import { Label } from "@ui/label";
 import { Skeleton } from "@ui/loading";
 import { toast } from "@ui/toaster";
 import { useState, useEffect } from "react";
@@ -43,6 +45,7 @@ function MyPagePage() {
     return (
       <div className="flex flex-col gap-4">
         <Skeleton className="h-8 w-40" />
+        <Skeleton className="h-36" />
         <Skeleton className="h-64" />
       </div>
     );
@@ -52,23 +55,53 @@ function MyPagePage() {
     <div className="flex flex-col gap-6">
       <Header title={messages.dashboard.myPage} />
 
-      <div className="flex flex-col items-center gap-3 rounded-3xl border border-zinc-200 bg-white p-6">
-        <Avatar src={page.avatarUrl} name={page.displayName} size={96} />
-        <Button variant="secondary" size="sm">
-          Alterar foto
-        </Button>
+      {/* Avatar card */}
+      <div className="flex flex-col items-center gap-4 rounded-3xl border border-zinc-200 bg-white p-6">
+        <div className="relative">
+          <Avatar src={page.avatarUrl} name={page.displayName} size={96} />
+          <button
+            type="button"
+            aria-label="Alterar foto"
+            className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-zinc-900 text-white shadow-md transition-colors hover:bg-zinc-700"
+          >
+            <Camera size={14} />
+          </button>
+        </div>
+        <p className="text-sm font-medium text-zinc-500">Foto de perfil</p>
       </div>
 
-      <div className="flex flex-col gap-4 rounded-3xl border border-zinc-200 bg-white p-5">
+      {/* Form card */}
+      <div className="flex flex-col gap-5 rounded-3xl border border-zinc-200 bg-white p-5">
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-zinc-700">Nome público</label>
-          <Input value={displayName} onChange={(event) => setDisplayName(event.target.value)} />
+          <Label htmlFor="display-name">Nome público</Label>
+          <Input
+            id="display-name"
+            value={displayName}
+            onChange={(event) => setDisplayName(event.target.value)}
+            placeholder="Seu nome ou apelido"
+          />
         </div>
+
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-zinc-700">Bio curta</label>
-          <Textarea value={bio} onChange={(event) => setBio(event.target.value)} maxLength={150} />
+          <Label htmlFor="bio">Bio curta</Label>
+          <Textarea
+            id="bio"
+            value={bio}
+            onChange={(event) => setBio(event.target.value)}
+            maxLength={150}
+            rows={3}
+            placeholder="Uma frase sobre você..."
+          />
+          <p className="mt-1.5 text-right text-xs text-zinc-400">
+            {bio.length}/150
+          </p>
         </div>
-        <Button disabled={save.isPending} onClick={() => save.mutate()}>
+
+        <Button
+          size="lg"
+          disabled={save.isPending}
+          onClick={() => save.mutate()}
+        >
           {save.isPending ? "Salvando..." : messages.common.save}
         </Button>
       </div>
