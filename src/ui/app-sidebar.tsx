@@ -223,7 +223,7 @@ function ActiveModule({
           </SidebarMenuButton>
         </Collapsible.Trigger>
 
-        <Collapsible.Content>
+        <Collapsible.Content className="overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
           <SidebarMenuSub>
             {mod.subItems.map((item) => {
               const SubIcon = item.icon;
