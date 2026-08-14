@@ -1,53 +1,60 @@
-import type { SVGProps } from "react";
-import { APP_NAME } from "@core/constants";
+import { cn } from "@ui/utils";
 
-type BrandMarkProps = SVGProps<SVGSVGElement> & {
+const WEBP_SRCSET =
+  "/brand/logo-64.webp 64w, /brand/logo-128.webp 128w, /brand/logo-256.webp 256w, /brand/logo-512.webp 512w";
+
+type BrandMarkProps = {
+  /** Rendered square size in pixels */
   size?: number;
+  className?: string;
 };
 
-export function BrandMark({ size = 40, ...props }: BrandMarkProps) {
+/**
+ * Icaros logo mark — renders the real illustrated logo using a <picture>
+ * element with WebP srcSet for optimal loading, PNG fallback for legacy browsers.
+ * width/height are always set to prevent layout shift (CLS).
+ */
+export function BrandMark({ size = 40, className }: BrandMarkProps) {
   return (
-    <svg
+    <span
       aria-hidden="true"
-      width={size}
-      height={size}
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
+      className={cn("inline-flex shrink-0 items-center justify-center", className)}
+      style={{ width: size, height: size }}
     >
-      <rect width="48" height="48" rx="15" fill="#7C3AED" />
-      <path
-        d="M14.5 24.2c0-4.75 3.85-8.6 8.6-8.6h3.15a7.25 7.25 0 0 1 0 14.5H23.1"
-        stroke="white"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M33.5 23.8c0 4.75-3.85 8.6-8.6 8.6h-3.15a7.25 7.25 0 0 1 0-14.5h3.15"
-        stroke="#FDE68A"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-      />
-    </svg>
+      <picture>
+        <source
+          type="image/webp"
+          srcSet={WEBP_SRCSET}
+          sizes={`${size}px`}
+        />
+        <img
+          src="/brand/logo.png"
+          alt=""
+          width={size}
+          height={size}
+          loading="eager"
+          decoding="async"
+          style={{ objectFit: "contain", display: "block" }}
+        />
+      </picture>
+    </span>
   );
 }
 
+/**
+ * Brand lockup — the full logo image (already contains the Icaros wordmark).
+ * No separate text is rendered since the wordmark is embedded in the illustration.
+ */
 export function BrandLockup({
-  markSize = 42,
+  markSize = 96,
   className,
 }: {
   markSize?: number;
   className?: string;
 }) {
   return (
-    <div className={className}>
-      <div className="flex items-center gap-3">
-        <BrandMark size={markSize} />
-        <span className="text-2xl font-black tracking-tight text-zinc-900 dark:text-white">
-          {APP_NAME}
-        </span>
-      </div>
+    <div className={cn("inline-flex items-center", className)}>
+      <BrandMark size={markSize} />
     </div>
   );
 }

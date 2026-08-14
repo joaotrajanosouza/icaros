@@ -57,10 +57,7 @@ function LoginPage() {
 
         {/* Logo */}
         <div className="relative z-10">
-          <BrandLockup
-            markSize={36}
-            className="[&_*]:text-primary-foreground [&_path]:fill-primary-foreground"
-          />
+          <BrandLockup markSize={120} />
         </div>
 
         {/* Tagline */}
@@ -78,7 +75,7 @@ function LoginPage() {
       <div className="flex flex-col items-center justify-center bg-background px-6 py-12">
         {/* Mobile logo */}
         <div className="mb-8 lg:hidden">
-          <BrandLockup markSize={40} />
+          <BrandLockup markSize={72} />
         </div>
 
         <div className="w-full max-w-sm space-y-6">

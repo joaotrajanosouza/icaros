@@ -14,7 +14,7 @@ export function OnboardingLayout({
     <div className="flex min-h-dvh flex-col bg-white px-6 py-8">
       <div className="mx-auto w-full max-w-md">
         <div className="mb-8 flex items-center justify-between">
-          <BrandLockup markSize={28} />
+          <BrandLockup markSize={48} />
           <span className="text-xs font-medium tabular-nums text-zinc-400">
             Etapa {step} de {totalSteps}
           </span>

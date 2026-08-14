@@ -289,7 +289,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <Link to="/app/linktree" className="flex items-center gap-2">
-                <BrandMark size={28} className="shrink-0" />
+                <BrandMark size={40} />
                 <span className="text-lg font-black tracking-tight group-data-[collapsible=icon]:hidden">
                   {APP_NAME}
                 </span>
