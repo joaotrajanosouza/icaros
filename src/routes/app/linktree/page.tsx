@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Camera } from "lucide-react";
+import { Camera, UserRound } from "lucide-react";
 import { myPageQuery } from "@core/queries";
 import { updateMyPage } from "@core/api/pages";
 import { Header } from "@ui/header";
@@ -60,7 +60,7 @@ function MyPagePage() {
         <div className="relative">
           <Avatar className="h-24 w-24">
             <AvatarImage src={page.avatarUrl ?? undefined} alt={page.displayName} />
-            <AvatarFallback>{page.displayName.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback><UserRound className="size-10 text-muted-foreground" /></AvatarFallback>
           </Avatar>
           <button
             type="button"

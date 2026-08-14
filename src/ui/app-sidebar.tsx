@@ -15,6 +15,8 @@ import {
   ChevronRight,
   Users,
   TrendingUp,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 import { useAuth } from "@core/auth-context";
 import { BrandMark } from "@ui/brand-mark";
@@ -130,6 +132,29 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
+// ─── SidebarToggle — acoplado ao header do sidebar ───────────────────────────
+
+function SidebarToggle() {
+  const { state, toggleSidebar } = useSidebar();
+  const isExpanded = state === "expanded";
+
+  return (
+    <button
+      type="button"
+      onClick={toggleSidebar}
+      aria-label={isExpanded ? "Fechar menu" : "Abrir menu"}
+      title={isExpanded ? "Fechar menu" : "Abrir menu"}
+      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+    >
+      {isExpanded ? (
+        <PanelLeftClose className="size-4" />
+      ) : (
+        <PanelLeftOpen className="size-4" />
+      )}
+    </button>
+  );
+}
+
 // ─── NavUser ──────────────────────────────────────────────────────────────────
 
 function NavUser() {
@@ -196,7 +221,7 @@ function NavUser() {
   );
 }
 
-// ─── ModuleItem — active module with collapsible sub-items ────────────────────
+// ─── ActiveModule — módulo com sub-itens colapsáveis ─────────────────────────
 
 function ActiveModule({
   mod,
@@ -246,7 +271,7 @@ function ActiveModule({
   );
 }
 
-// ─── Locked module ────────────────────────────────────────────────────────────
+// ─── LockedModule — módulo bloqueado ─────────────────────────────────────────
 
 function LockedModule({ mod }: { mod: Extract<Module, { available: false }> }) {
   const Icon = mod.icon;
@@ -275,28 +300,28 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar collapsible="icon" {...props}>
-      {/* Brand header */}
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              size="lg"
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <Link to="/app/linktree" className="flex items-center gap-2">
-                <BrandMark size={28} className="shrink-0" />
-                <span className="text-lg font-black tracking-tight group-data-[collapsible=icon]:hidden">
-                  {APP_NAME}
-                </span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      {/* Brand + toggle acoplados ao topo do sidebar */}
+      <SidebarHeader className="flex-row items-center justify-between gap-2 px-3 py-2">
+        {/* Logo — some no modo colapsado */}
+        <Link
+          to="/app/linktree"
+          className="flex min-w-0 items-center gap-2 group-data-[collapsible=icon]:hidden"
+          aria-label={APP_NAME}
+        >
+          <BrandMark size={26} className="shrink-0" />
+          <span className="truncate text-base font-black tracking-tight">
+            {APP_NAME}
+          </span>
+        </Link>
+
+        {/* Toggle — sempre visível; centralizado no modo ícone */}
+        <div className="flex shrink-0 items-center group-data-[collapsible=icon]:w-full group-data-[collapsible=icon]:justify-center">
+          <SidebarToggle />
+        </div>
       </SidebarHeader>
 
       <SidebarContent>
-        {/* Modules */}
+        {/* Módulos */}
         <SidebarGroup>
           <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
             Módulos
@@ -314,7 +339,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Plan — bottom of content area */}
+        {/* Plano — rodapé da área de conteúdo */}
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
             <SidebarMenu>
@@ -335,7 +360,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* User footer */}
+      {/* Usuário */}
       <SidebarFooter>
         <NavUser />
       </SidebarFooter>
