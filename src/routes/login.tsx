@@ -42,9 +42,9 @@ function LoginPage() {
   }
 
   return (
-    <div className="grid min-h-dvh lg:grid-cols-2">
+    <div className="grid min-h-dvh lg:grid-cols-2 ">
       {/* Left — brand panel (desktop only) */}
-      <div className="relative hidden flex-col items-center justify-center overflow-hidden bg-primary p-10 lg:flex">
+      <div className="relative hidden flex-col items-center justify-center overflow-hidden bg-[rgba(0.852 0.199 91.936)] p-10 lg:flex">
         {/* Subtle blobs */}
         <div
           aria-hidden="true"
@@ -57,7 +57,7 @@ function LoginPage() {
 
         {/* Logo — centered */}
         <div className="relative z-10">
-          <BrandLockup markSize={240} />
+          <BrandLockup markSize={480} />
         </div>
 
         {/* Tagline — pinned to bottom */}
